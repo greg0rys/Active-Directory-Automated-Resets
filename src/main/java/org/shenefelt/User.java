@@ -8,6 +8,7 @@ public class User
 
     public User() { }
 
+
     public User(String user, String pass, int altPIN)
     {
         username = user;

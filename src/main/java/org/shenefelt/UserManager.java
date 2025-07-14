@@ -22,7 +22,7 @@ public class UserManager
     }
 
 
-    private static boolean readInUsers()
+    private static void readInUsers()
     {
         String csvFile = "C:/scripts/passwords.csv";
 
@@ -33,20 +33,20 @@ public class UserManager
             {
                 User temp = new User();
                 String[] row = records.get(i);
-                temp.setUsername(row[0].trim());
-                temp.setPassword(row[1].trim());
-                temp.setAltID(Integer.parseInt(row[2].trim()));
+
                 System.out.println(temp);
-                users.add(temp);
+                users.add(new User(row[0].trim(),
+                                   row[1].trim(),
+                                   Integer.parseInt(row[2].trim())));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return users.isEmpty();
     }
 
-    private boolean writeOutUsers() {
+    private void writeOutUsers()
+    {
         String csvFile = "C:/scripts/passwords.csv";
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile))) {
@@ -66,21 +66,18 @@ public class UserManager
 
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
 
-        return true;
     }
 
 
     /**
      * Run automated reset using template patter search to determine string
-     * @return
      */
-    private boolean resetPasswords()
+    private void resetPasswords()
     {
         if(users.isEmpty())
-            return false;
+            return;
 
         String agencyP = "Ag3ncy";
         String surveyorP = "Surv3yor";
@@ -92,7 +89,6 @@ public class UserManager
             u.setPassword((u.getUsername().toUpperCase().indexOf('A') == - 1) ? surveyorP + digits : agencyP + digits);
         }
 
-        return true;
     }
 
 
