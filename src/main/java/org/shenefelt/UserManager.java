@@ -24,7 +24,7 @@ public class UserManager
     { /* no args for util class */   }
 
     /**
-     * Read in the users from the csv file @ C:\scripts\passwords.csv
+     * Read in CSV => manage list. probably going to consider switching to graph DSA
      */
     private static void readInUsers()
     {
@@ -54,7 +54,7 @@ public class UserManager
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile))) {
             // Write header
-            writer.writeNext(new String[]{"username", "password", "employeeID"});
+            writer.writeNext(new String[]{"username", "password", "ALT ID"});
 
             // Write each user's data to CSV for PS read
             for (User u : users) {
@@ -84,11 +84,13 @@ public class UserManager
             return;
 
         Random rand = new Random();
+        String specialChars = "!!??";
 
         for(User u : users)
         {
             int digits = rand.nextInt(1,9999);
-            u.setPassword((u.getUsername().toUpperCase().indexOf('A') == - 1) ? "Surv3yor" + digits : "Ag3ncy" + digits);
+            u.setPassword((u.getUsername().toUpperCase().indexOf('A') == -1) ? ("Surv3yor" + digits + specialChars) :
+                                                                               ("Ag3ncy" + digits + specialChars));
         }
 
 
