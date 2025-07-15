@@ -12,6 +12,7 @@ import java.util.Random;
 public class UserManager
 {
     private final static ArrayList<User> users = new ArrayList<>();
+    private static final String csvFile = "C:/scripts/passwords.csv";
 
     public UserManager()
     {
@@ -22,32 +23,34 @@ public class UserManager
     }
 
 
+    /**
+     * Read in the users from the csv file @ C:\scripts\passwords.csv
+     */
     private static void readInUsers()
     {
-        String csvFile = "C:/scripts/passwords.csv";
 
         try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
             List<String[]> records = reader.readAll();
 
             for (int i = 1; i < records.size(); i++)
             {
-                User temp = new User();
                 String[] row = records.get(i);
-
-                System.out.println(temp);
                 users.add(new User(row[0].trim(),
                                    row[1].trim(),
                                    Integer.parseInt(row[2].trim())));
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
 
     }
 
-    private void writeOutUsers()
+    /**
+     * Write updated users to the file for PS read
+     */
+    private static void writeOutUsers()
     {
-        String csvFile = "C:/scripts/passwords.csv";
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile))) {
             // Write header
@@ -68,26 +71,26 @@ public class UserManager
             e.printStackTrace();
         }
 
+
     }
 
 
     /**
-     * Run automated reset using template patter search to determine string
+     * Run automated reset using template pattern search to determine string
      */
-    private void resetPasswords()
+    private static void resetPasswords()
     {
         if(users.isEmpty())
             return;
 
-        String agencyP = "Ag3ncy";
-        String surveyorP = "Surv3yor";
         Random rand = new Random();
 
         for(User u : users)
         {
             int digits = rand.nextInt(1,9999);
-            u.setPassword((u.getUsername().toUpperCase().indexOf('A') == - 1) ? surveyorP + digits : agencyP + digits);
+            u.setPassword((u.getUsername().toUpperCase().indexOf('A') == - 1) ? "Surv3yor" + digits : "Ag3ncy" + digits);
         }
+
 
     }
 
