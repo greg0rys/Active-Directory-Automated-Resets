@@ -14,14 +14,14 @@ public class UserManager
     private final static ArrayList<User> users = new ArrayList<>();
     private static final String csvFile = "C:/scripts/passwords.csv";
 
-    public UserManager()
+    public static void main(String[] args)
     {
         readInUsers();
         resetPasswords();
         writeOutUsers();
-
     }
-
+    public UserManager()
+    { /* no args for util class */   }
 
     /**
      * Read in the users from the csv file @ C:\scripts\passwords.csv
